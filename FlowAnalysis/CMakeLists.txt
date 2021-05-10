@@ -1,8 +1,12 @@
 # CMakeのバージョンを設定
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.1)
+
 
 # プロジェクト名と使用する言語を設定
-project(FlowAnalysis CC)
+project(FlowAnalysis C)
+set(CMAKE_C_FLAGS "-O2 -Wall")
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# a.outという実行ファイルをmain.cppとhello.cppから作成
-add_executable(flowanalysis.out arrayOutOfBounds.c bufferOverflow.c dbutil.c divisionByZero.c fileLeaks.c memoryLeaks.c nullPointerDeref.c nullPointerDerefBenchmark.c sql.c sqlInjection.c unreachableCode.c useBeforeInit.c)
+add_executable(FlowAnalysis.axf arrayOutOfBounds.c bufferOverflow.c dbutil.c divisionByZero.c fileLeaks.c memoryLeaks.c nullPointerDeref.c nullPointerDerefBenchmark.c sql.c sqlInjection.c unreachableCode.c useBeforeInit.c)
+
+
