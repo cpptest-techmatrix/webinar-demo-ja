@@ -9,7 +9,7 @@ set(CMAKE_EXECUTABLE_SUFFIX ".axf")
 include(arm-gcc-toolchain.cmake)
 set(CPU_FLAGS -mthumb -mcpu=cortex-m0)
 set(COMPILER_FLAGS -Os -flto)
-set(CMAKEEXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 list(APPEND SOURCE_LIST 
         arrayOutOfBounds.c
