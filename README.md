@@ -32,7 +32,8 @@ $ docker build -t webinar-demo-ja:webinar-demo-ja .
 $ docker run --net=host --name webinar-demo-ja -itd -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix -v /home/cpptest/webinar-demo:/home/cpptest/webinar-demo webinar-demo-ja:webinar-demo-ja
 $ docker exec -it webinar-demo-ja /bin/bash
 root#apt-get install -y ubuntu-desktop
-$ xhost +local
+root#apt-get install -y libgtk2.0-dev
+$ xhost +localhost
 $ docker exec --user cpptest -it webinar-demo-ja /bin/bash
 
 ## FlowAnalysisプロジェクトのビルド方法
