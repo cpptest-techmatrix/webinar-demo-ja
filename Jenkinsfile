@@ -4,41 +4,48 @@ pipeline {
     stages {
         stage('Clone Project from GitHub')
             steps {
+                sh 'echo "Clone Project from GitHub"'
                 sh 'git clone https://github.com/cpptest-techmatrix/webinar-demo-ja'
             }
         }
         stage('Create Docker Image') {
             steps {
-                sh '''cp /home/ubuntu/webinar-demo/dockerfile/Dockerfile ./
-                cp /home/ubuntu/dockerfile/bxarm-8.50.9.deb ./
-                docker build -t cpptest:cpptest .'''
+                sh 'echo "Create Docker Image"'
+//                sh '''cp /home/ubuntu/webinar-demo/dockerfile/Dockerfile ./
+//                cp /home/ubuntu/dockerfile/bxarm-8.50.9.deb ./
+//                docker build -t cpptest:cpptest .'''
             }
         }
         stage('Run Docker Container') {
             steps {
-                sh 'docker run --net host --name cpptest_docker --workdir /home/ubuntu -itd -v /home/ubuntu/parasoft:/home/ubuntu/parasoft cpptest:cpptest'
+                sh 'echo "Run Docker Container"'
+//                sh 'docker run --net host --name cpptest_docker --workdir /home/ubuntu -itd -v /home/ubuntu/parasoft:/home/ubuntu/parasoft cpptest:cpptest'
             }
         }
         stage('Clone Project from GitHub') {
             steps {
-                sh 'docker exec --user 1000 -i cpptest_docker git clone https://github.com/kafujisawa/webinar-demo-bxarm-ja'
+                sh 'echo "Clone Project from GitHub"'
+//                sh 'docker exec --user 1000 -i cpptest_docker git clone https://github.com/kafujisawa/webinar-demo-bxarm-ja'
             }
         }
         stage('Build Project') {
             steps {
-                sh 'docker exec --user 1000 -i cpptest_docker /bin/bash -c "cd webinar-demo-bxarm-ja && cmake . -DCMAKE_BUILD_TYPE=debug && cmake --build . --config debug"'
+                sh 'echo "Build Project"'
+//                sh 'docker exec --user 1000 -i webinar-demo-ja /bin/bash -c "cd webinar-demo-ja && cmake . && cpptesttrace --cpptesttraceProjectName=FlowAnalysis make"'
             }
         }
         stage('Create C++test Project') {
             steps {
-                sh 'docker exec --user 1000 -i cpptest_docker cpptestcli -data workspace -bdf webinar-demo-bxarm-ja/compile_commands.json -localsettings webinar-demo-bxarm-ja/cpptest.ls.properties -showdetails'
+                sh 'echo "Create C++test Project"'
+//                sh 'docker exec --user 1000 -i cpptest_docker cpptestcli -data workspace -bdf webinar-demo-bxarm-ja/compile_commands.json -localsettings webinar-demo-bxarm-ja/cpptest.ls.properties -showdetails'
             }
         }
         stage('Run Tests') {
             parallel {
                 stage('Run MISRA Guideline Test') {
                     steps {
-                        sh 'docker exec --user 1000 -i cpptest_docker cpptestcli -data workspace -resource webinar-demo-bxarm-ja -config webinar-demo-bxarm-ja/cpptest.pipeline.MISRA\\ C2012.properties -exclude webinar-demo-bxarm-ja/cpptest.excludes.lst -localsettings webinar-demo-bxarm-ja/cpptest.ls.properties -publish -showdetails -appconsole stdout'
+                        sh 'echo "Run MISRA Guideline Test"'
+//                        sh 'docker exec --user 1000 -i cpptest_docker cpptestcli -data workspace -resource webinar-demo-bxarm-ja -config webinar-demo-bxarm-ja/cpptest.pipeline.MISRA\\ C2012.properties -exclude webinar-demo-bxarm-ja/cpptest.excludes.lst -localsettings webinar-demo-bxarm-ja/cpptest.ls.properties -publish -showdetails -appconsole stdout'
                     }
                 }
                 stage('Run Security Test') {
@@ -55,13 +62,15 @@ pipeline {
         }
         stage('Delete Docker Container') {
             steps {
-                sh '''docker stop cpptest_docker
-                docker rm cpptest_docker'''
+                sh 'echo "Delete Docker Container"'
+//                sh '''docker stop cpptest_docker
+//                docker rm cpptest_docker'''
             }
         }
         stage('Delete Docker Image') {
             steps {
-                sh 'docker rmi cpptest:cpptest'
+                sh 'echo "Delete Docker Container"'
+//                sh 'docker rmi cpptest:cpptest'
             }
         }
     }
