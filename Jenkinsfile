@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone Project from GitHub')
+        stage('Clone Project from GitHub') {
             steps {
                 sh 'echo "Clone Project from GitHub"'
                 sh 'git clone https://github.com/cpptest-techmatrix/webinar-demo-ja'
