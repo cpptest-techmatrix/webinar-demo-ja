@@ -22,12 +22,6 @@ pipeline {
 //                sh 'docker run --net host --name cpptest_docker --workdir /home/ubuntu -itd -v /home/ubuntu/parasoft:/home/ubuntu/parasoft cpptest:cpptest'
             }
         }
-        stage('Clone Project from GitHub') {
-            steps {
-                sh 'echo "Clone Project from GitHub"'
-//                sh 'docker exec --user 1000 -i cpptest_docker git clone https://github.com/kafujisawa/webinar-demo-bxarm-ja'
-            }
-        }
         stage('Build Project') {
             steps {
                 sh 'echo "Build Project"'
