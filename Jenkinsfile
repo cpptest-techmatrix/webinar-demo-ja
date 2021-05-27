@@ -67,10 +67,10 @@ pipeline {
 //                sh 'docker rmi cpptest:cpptest'
             }
         }
-        post {
-            success {
-                cleanWs()
-            }
+    }
+    post {
+        success {
+            cleanWs()
         }
     }
 }
