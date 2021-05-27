@@ -9,7 +9,7 @@ pipeline {
         // }
         stage('Create Docker Image') {
             steps {
-                sh '''cp /home/ubuntu/module/parasoft_dcpptest_2020.2.0_linux_x86_64.tar.gz ./ && cp /home/ubuntu/module/license.properties ./
+                sh '''cp /home/ubuntu/module/parasoft_cpptest_2020.2.0_linux_x86_64.tar.gz ./ && cp /home/ubuntu/module/license.properties ./
 //                docker build -t webinar-demo-ja:webinar-demo-ja .'''
             }
         }
