@@ -2,24 +2,20 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone Project from GitHub') {
-            steps {
-                sh 'echo "Clone Project from GitHub"'
-                sh 'git clone https://github.com/cpptest-techmatrix/webinar-demo-ja'
-            }
-        }
+        // stage('Clone Project from GitHub') {
+        //     steps {
+        //         sh 'git clone https://github.com/cpptest-techmatrix/webinar-demo-ja'
+        //     }
+        // }
         stage('Create Docker Image') {
             steps {
-                sh 'echo "Create Docker Image"'
-//                sh '''cp /home/ubuntu/webinar-demo/dockerfile/Dockerfile ./
-//                cp /home/ubuntu/dockerfile/bxarm-8.50.9.deb ./
-//                docker build -t cpptest:cpptest .'''
+                sh '''cp /home/ubuntu/module/parasoft_dcpptest_2020.2.0_linux_x86_64.tar.gz ./ && cp /home/ubuntu/module/license.properties ./
+//                docker build -t webinar-demo-ja:webinar-demo-ja .'''
             }
         }
         stage('Run Docker Container') {
             steps {
-                sh 'echo "Run Docker Container"'
-//                sh 'docker run --net host --name cpptest_docker --workdir /home/ubuntu -itd -v /home/ubuntu/parasoft:/home/ubuntu/parasoft cpptest:cpptest'
+                sh 'docker run --net host --name webinar-demo-ja --workdir /home/ubuntu -itd webinar-demo-ja:webinar-demo-ja'
             }
         }
         stage('Build Project') {
@@ -56,15 +52,13 @@ pipeline {
         }
         stage('Delete Docker Container') {
             steps {
-                sh 'echo "Delete Docker Container"'
-//                sh '''docker stop cpptest_docker
-//                docker rm cpptest_docker'''
+                sh '''docker stop webinar-demo-ja
+                docker rm webinar-demo-ja'''
             }
         }
         stage('Delete Docker Image') {
             steps {
-                sh 'echo "Delete Docker Container"'
-//                sh 'docker rmi cpptest:cpptest'
+                sh 'docker rmi webinar-demo-ja:webinar-demo-ja'
             }
         }
     }
