@@ -55,18 +55,16 @@ pipeline {
             }
         }
         stage('Clean Environment') {
-            parallel {
-                stage('Clean Jenkins Workspace') {
-                    steps {
-                        cleanWs()
-                    }
+            stage('Clean Jenkins Workspace') {
+                steps {
+                    cleanWs()
                 }
-                stage('Delete Docker Container') {
-                    steps {
-                        sh 'echo "Delete Docker Container"'
-        //                sh '''docker stop cpptest_docker
-        //                docker rm cpptest_docker'''
-                    }
+            }
+            stage('Delete Docker Container') {
+                steps {
+                    sh 'echo "Delete Docker Container"'
+    //                sh '''docker stop cpptest_docker
+    //                docker rm cpptest_docker'''
                 }
             }
             stage('Delete Docker Image') {
