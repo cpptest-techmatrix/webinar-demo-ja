@@ -54,24 +54,22 @@ pipeline {
                 }
             }
         }
-        stage('Clean Environment') {
-            stage('Clean Jenkins Workspace') {
-                steps {
-                    cleanWs()
-                }
+        stage('Delete Docker Container') {
+            steps {
+                sh 'echo "Delete Docker Container"'
+//                sh '''docker stop cpptest_docker
+//                docker rm cpptest_docker'''
             }
-            stage('Delete Docker Container') {
-                steps {
-                    sh 'echo "Delete Docker Container"'
-    //                sh '''docker stop cpptest_docker
-    //                docker rm cpptest_docker'''
-                }
+        }
+        stage('Delete Docker Image') {
+            steps {
+                sh 'echo "Delete Docker Container"'
+//                sh 'docker rmi cpptest:cpptest'
             }
-            stage('Delete Docker Image') {
-                steps {
-                    sh 'echo "Delete Docker Container"'
-    //                sh 'docker rmi cpptest:cpptest'
-                }
+        }
+        post {
+            success {
+                cleanWs()
             }
         }
     }
