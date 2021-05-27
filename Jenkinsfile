@@ -57,7 +57,9 @@ pipeline {
         stage('Clean Environment') {
             parallel {
                 stage('Clean Jenkins Workspace') {
-                    cleanWs()
+                    steps {
+                        cleanWs()
+                    }
                 }
                 stages {
                     stage('Delete Docker Container') {
