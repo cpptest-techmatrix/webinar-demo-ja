@@ -11,7 +11,6 @@ pipeline {
             steps {
                 sh '''cp /home/ubuntu/module/parasoft_cpptest_2020.2.0_linux_x86_64.tar.gz ./
                 cp /home/ubuntu/module/license.properties ./
-                cp /var/lib/jenkins/workspace/webinar-demo-ja/Dockerfile ./
                 docker build -t webinar-demo-ja:webinar-demo-ja .'''
             }
         }
