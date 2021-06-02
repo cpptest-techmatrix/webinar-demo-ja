@@ -21,12 +21,12 @@ pipeline {
         }
         stage('Build Project') {
             steps {
-                sh 'docker exec --user 1000 -i cpptest-workflow-demo /bin/bash -c "cd webinar-demo-ja && cmake . && cpptesttrace --cpptesttraceProjectName=FlowAnalysis make"'
+                sh 'docker exec --user 1000 -i cpptest-workflow-demo /bin/bash -c "cmake . && cpptesttrace --cpptesttraceProjectName=FlowAnalysis make"'
             }
         }
         stage('Create C++test Project') {
             steps {
-                sh 'docker exec --user 1000 -i cpptest-workflow-demo cpptestcli -data workspace -bdf webinar-demo-ja/cpptestscan.bdf -localsettings webinar-demo-bxarm-ja/cpptest.ls.properties -showdetails'
+                sh 'docker exec --user 1000 -i cpptest-workflow-demo cpptestcli -data . -bdf webinar-demo-ja/cpptestscan.bdf -localsettings cpptest.ls.properties -showdetails'
             }
         }
         stage('Run Tests') {
