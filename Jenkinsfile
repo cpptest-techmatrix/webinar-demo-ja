@@ -2,11 +2,6 @@ pipeline {
     agent any
 
     stages {
-        // stage('Clone Project from GitHub') {
-        //     steps {
-        //         sh 'git clone https://github.com/cpptest-techmatrix/webinar-demo-ja'
-        //     }
-        // }
         stage('Create Docker Image') {
             steps {
                 sh '''cp /home/ubuntu/module/parasoft_cpptest_2020.2.0_linux_x86_64.tar.gz ./
@@ -16,17 +11,22 @@ pipeline {
         }
         stage('Run Docker Container') {
             steps {
-                sh 'docker run --net host --name cpptest-workflow-demo --workdir /home/ubuntu -itd webinar-demo-ja:webinar-demo-ja'
+                sh 'docker run --net host --name cpptest-workflow-demo --workdir /home/cpptest -itd webinar-demo-ja:webinar-demo-ja'
+            }
+        stage('Clone Project from GitHub') {
+            steps {
+                sh 'docker exec --user 1000 -i cpptest-workflow-demo git clone https://github.com/cpptest-techmatrix/webinar-demo-ja'
             }
         }
+         }
         stage('Build Project') {
             steps {
-                sh 'docker exec --user 1000 -i cpptest-workflow-demo /bin/bash -c "cmake . && cpptesttrace --cpptesttraceProjectName=FlowAnalysis make"'
+                sh 'docker exec --user 1000 -i cpptest-workflow-demo /bin/bash -c "cd webinar-demo-ja/FlowAnalysis && cmake . && cpptesttrace --cpptesttraceProjectName=FlowAnalysis make"'
             }
         }
         stage('Create C++test Project') {
             steps {
-                sh 'docker exec --user 1000 -i cpptest-workflow-demo cpptestcli -data . -bdf webinar-demo-ja/cpptestscan.bdf -localsettings cpptest.ls.properties -showdetails'
+                sh 'docker exec --user 1000 -i cpptest-workflow-demo cpptestcli -data ./workspace -bdf webinar-demo-ja/FlowAnalysis/cpptestscan.bdf -localsettings webinar-demo-ja/cpptest.ls.properties -showdetails'
             }
         }
         stage('Run Tests') {

@@ -31,6 +31,7 @@ RUN wget -qO- https://developer.arm.com/-/media/Files/downloads/gnu-rm/9-2019q4/
 
 COPY parasoft_cpptest_2020.2.0_linux_x86_64.tar.gz /opt/app
 COPY license.properties /opt/app
+
 RUN chmod u+rwx /opt/app/parasoft_cpptest_2020.2.0_linux_x86_64.tar.gz
 RUN tar zxvf /opt/app/parasoft_cpptest_2020.2.0_linux_x86_64.tar.gz && \
     /opt/app/parasoft_cpptest_professional-2020.2.0.20201022B1126-linux.x86_64.sh --non-interactive --lang 2 --configure /opt/app/license.properties && \
@@ -47,6 +48,7 @@ RUN update-locale LANG=ja_JP.UTF-8
 # ユーザーを追加
 ARG DOCKER_UID=1000
 ARG DOCKER_USER=cpptest
-RUN useradd -m -u ${DOCKER_UID} ${DOCKER_USER}
+ARG JENKINS_GROUP=115
+RUN useradd -m -u ${DOCKER_UID} ${DOCKER_USER} --groups ${JENKINS_GROUP} ${DOCKER_USER}
 
 ENV LC_ALL=ja_JP.UTF-8
