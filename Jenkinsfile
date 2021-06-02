@@ -16,19 +16,17 @@ pipeline {
         }
         stage('Run Docker Container') {
             steps {
-                sh 'docker run --net host --name webinar-demo-ja --workdir /home/ubuntu -itd webinar-demo-ja:webinar-demo-ja'
+                sh 'docker run --net host --name cpptest-workflow-demo --workdir /home/ubuntu -itd webinar-demo-ja:webinar-demo-ja'
             }
         }
         stage('Build Project') {
             steps {
-                sh 'echo "Build Project"'
-//                sh 'docker exec --user 1000 -i webinar-demo-ja /bin/bash -c "cd webinar-demo-ja && cmake . && cpptesttrace --cpptesttraceProjectName=FlowAnalysis make"'
+                sh 'docker exec --user 1000 -i cpptest-workflow-demo /bin/bash -c "cd webinar-demo-ja && cmake . && cpptesttrace --cpptesttraceProjectName=FlowAnalysis make"'
             }
         }
         stage('Create C++test Project') {
             steps {
-                sh 'echo "Create C++test Project"'
-//                sh 'docker exec --user 1000 -i cpptest_docker cpptestcli -data workspace -bdf webinar-demo-bxarm-ja/compile_commands.json -localsettings webinar-demo-bxarm-ja/cpptest.ls.properties -showdetails'
+                sh 'docker exec --user 1000 -i cpptest-workflow-demo cpptestcli -data workspace -bdf webinar-demo-ja/cpptestscan.bdf -localsettings webinar-demo-bxarm-ja/cpptest.ls.properties -showdetails'
             }
         }
         stage('Run Tests') {
@@ -53,8 +51,8 @@ pipeline {
         }
         stage('Delete Docker Container') {
             steps {
-                sh '''docker stop webinar-demo-ja
-                docker rm webinar-demo-ja'''
+                sh '''docker stop cpptest-workflow-demo
+                docker rm cpptest-workflow-demo'''
             }
         }
         stage('Delete Docker Image') {
