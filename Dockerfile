@@ -48,7 +48,6 @@ RUN update-locale LANG=ja_JP.UTF-8
 # ユーザーを追加
 ARG DOCKER_UID=1000
 ARG DOCKER_USER=cpptest
-ARG JENKINS_GROUP=115
-RUN useradd -m -u ${DOCKER_UID} ${DOCKER_USER} --groups ${JENKINS_GROUP} ${DOCKER_USER}
+RUN useradd -m -u ${DOCKER_UID} ${DOCKER_USER}
 
 ENV LC_ALL=ja_JP.UTF-8
