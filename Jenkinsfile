@@ -13,12 +13,12 @@ pipeline {
             steps {
                 sh 'docker run --net host --name cpptest-workflow-demo --workdir /home/cpptest -itd webinar-demo-ja:webinar-demo-ja'
             }
+        }
         stage('Clone Project from GitHub') {
             steps {
                 sh 'docker exec --user 1000 -i cpptest-workflow-demo git clone https://github.com/cpptest-techmatrix/webinar-demo-ja'
             }
         }
-         }
         stage('Build Project') {
             steps {
                 sh 'docker exec --user 1000 -i cpptest-workflow-demo /bin/bash -c "cd webinar-demo-ja/FlowAnalysis && cmake . && cpptesttrace --cpptesttraceProjectName=FlowAnalysis make"'
