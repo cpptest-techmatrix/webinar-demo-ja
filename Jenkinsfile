@@ -1,6 +1,9 @@
 pipeline {
     agent any
+    environment
+    {
 
+    }
     stages {
         stage('Create Docker Image') {
             steps {
@@ -21,7 +24,7 @@ pipeline {
         }
         stage('Create C++test Project') {
             steps {
-                sh 'docker exec --user 1000 -i cpptest-workflow-demo cpptestcli -data ./workspace -bdf webinar-demo-ja/FlowAnalysis/cpptestscan.bdf -localsettings webinar-demo-ja/cpptest.ls.properties -showdetails'
+                sh 'docker exec --user 1000 -i cpptest-workflow-demo cpptestcli -data . -bdf webinar-demo-ja/FlowAnalysis/cpptestscan.bdf -localsettings webinar-demo-ja/cpptest.ls.properties -showdetails'
             }
         }
         stage('Run Tests') {
@@ -29,17 +32,19 @@ pipeline {
                 stage('Run MISRA Guideline Test') {
                     steps {
                         sh 'echo "Run MISRA Guideline Test"'
-//                        sh 'docker exec --user 1000 -i cpptest_docker cpptestcli -data workspace -resource webinar-demo-bxarm-ja -config webinar-demo-bxarm-ja/cpptest.pipeline.MISRA\\ C2012.properties -exclude webinar-demo-bxarm-ja/cpptest.excludes.lst -localsettings webinar-demo-bxarm-ja/cpptest.ls.properties -publish -showdetails -appconsole stdout'
+                        //sh 'cpptestcli -data webinar-demo-ja/ -resource FlowAnalysis -config "builtin://MISRA C 2012" -localsettings webinar-demo-ja/cpptest.ls.properties -showdetails -appconsole stdout'
                     }
                 }
                 stage('Run Security Test') {
                     steps {
                         sh 'echo "Run Security Test"'
+                        //sh 'cpptestcli -data webinar-demo-ja/ -resource FlowAnalysis -config "builtin://CERT C Coding Standard" -localsettings webinar-demo-ja/cpptest.ls.properties -showdetails -appconsole stdout'
                     }
                 }
                 stage('Run Unit Tests') {
                     steps {
                         sh 'echo "Run Unit Tests"'
+                        //cpptestcli -data webinar-demo-ja -resource FlowAnalysis -config "builtin://Run Unit Tests" -localsettings webinar-demo-ja/cpptest.ls.properties -showdetails -appconsole stdout
                     }
                 }
             }
