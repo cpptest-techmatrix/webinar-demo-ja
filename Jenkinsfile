@@ -11,12 +11,7 @@ pipeline {
         }
         stage('Run Docker Container') {
             steps {
-                sh 'docker run --net host --name cpptest-workflow-demo --workdir /home/cpptest -itd webinar-demo-ja:webinar-demo-ja'
-            }
-        }
-        stage('Clone Project from GitHub') {
-            steps {
-                sh 'docker exec --user 1000 -i cpptest-workflow-demo git clone https://github.com/cpptest-techmatrix/webinar-demo-ja'
+                sh 'docker run --net host --name cpptest-workflow-demo --workdir /home/cpptest -v /home/ubuntu/cpptest_workflow:/home/cpptest/cpptest_workflow -itd webinar-demo-ja:webinar-demo-ja'
             }
         }
         stage('Build Project') {
