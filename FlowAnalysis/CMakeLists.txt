@@ -28,12 +28,3 @@ list(APPEND SOURCE_LIST
 
 add_compile_options(${CPU_FLAGS} ${COMPILER_FLAGS})
 add_executable(FlowAnalysis ${SOURCE_LIST})
-
-# C++testプロジェクト作成
-#include (/opt/app/parasoft/cpptest/10.5/integration/cmake/cmake/cpptest.cmake)
-#cpptest_add_executable(
-#abc
-#[CPPTEST_PROJECT_NAME abc]
-#[CPPTEST_PROJECT_LOC ../../workspace]
-#SOURCES ${SOURCE_LIST}
-#)

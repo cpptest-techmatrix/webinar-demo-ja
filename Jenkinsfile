@@ -9,10 +9,10 @@ pipeline {
         HOST_HOME_DIR='/home/ubuntu'
         CONTAINER_HOME_DIR='/home/ubuntu/webinar-demo-ja'
         // for cpptest
-        PROJECT_NAME='FlowAnalysis'
-        MISRA_CONFIG=''
-        CERT_CONFIG=''
-        UNIT_TEST_CONFIG=''
+        CPPTEST_PROJECT_NAME='FlowAnalysis'
+        CPPTEST_CONFIG_MISRA='user://MISRA C 2012'
+        CPPTEST_CONFIG_CERT='builtin://SEI CERT C Rules'
+        CPPTEST_CONFIG_UNIT_TEST='user://03. Run Unit Tests for ARM'
     }
     stages {
         stage('Create Docker Image') {
@@ -29,12 +29,12 @@ pipeline {
         }
         stage('Build Project') {
             steps {
-                sh 'docker exec --user 1000 -i ${DOCKER_CONTAINER_NAME} /bin/bash -c "cd ${PROJECT_NAME} && cmake . && cpptesttrace --cpptesttraceProjectName=${PROJECT_NAME} make"'
+                sh 'docker exec --user 1000 -i ${DOCKER_CONTAINER_NAME} /bin/bash -c "cd ${CPPTEST_PROJECT_NAME} && cmake . && cpptesttrace --cpptesttraceProjectName=${CPPTEST_PROJECT_NAME} make"'
             }
         }
         stage('Create C++test Project') {
             steps {
-                sh 'docker exec --user 1000 -i ${DOCKER_CONTAINER_NAME} cpptestcli -data . -bdf ${PROJECT_NAME}/cpptestscan.bdf -localsettings cpptest.ls.properties -showdetails'
+                sh 'docker exec --user 1000 -i ${DOCKER_CONTAINER_NAME} cpptestcli -data . -bdf ${CPPTEST_PROJECT_NAME}/cpptestscan.bdf -localsettings cpptest.ls.properties -showdetails'
             }
         }
         stage('Run Tests') {
@@ -42,19 +42,19 @@ pipeline {
                 stage('Run MISRA Guideline Test') {
                     steps {
                         sh 'echo "Run MISRA Guideline Test"'
-                        //sh 'docker exec --user 1000 -i ${DOCKER_CONTAINER_NAME} cpptestcli -data . -resource ${PROJECT_NAME} -config "builtin://MISRA C 2012" -localsettings cpptest.ls.properties -showdetails -appconsole stdout'
+                        //sh 'docker exec --user 1000 -i ${DOCKER_CONTAINER_NAME} cpptestcli -data . -resource ${CPPTEST_PROJECT_NAME} -config ${CPPTEST_CONFIG_MISRA} -localsettings cpptest.ls.properties -showdetails -appconsole stdout'
                     }
                 }
                 stage('Run Security Test') {
                     steps {
                         sh 'echo "Run Security Test"'
-                        //sh 'docker exec --user 1000 -i ${DOCKER_CONTAINER_NAME} cpptestcli -data . -resource ${PROJECT_NAME} -config "builtin://CERT C Coding Standard" -localsettings cpptest.ls.properties -showdetails -appconsole stdout'
+                        //sh 'docker exec --user 1000 -i ${DOCKER_CONTAINER_NAME} cpptestcli -data . -resource ${CPPTEST_PROJECT_NAME} -config ${CPPTEST_CONFIG_CERT} -localsettings cpptest.ls.properties -showdetails -appconsole stdout'
                     }
                 }
                 stage('Run Unit Tests') {
                     steps {
                         sh 'echo "Run Unit Tests"'
-                        //sh 'docker exec --user 1000 -i ${DOCKER_CONTAINER_NAME} cpptestcli -data . -resource ${PROJECT_NAME} -config "builtin://Run Unit Tests" -localsettings cpptest.ls.properties -showdetails -appconsole stdout'
+                        //sh 'docker exec --user 1000 -i ${DOCKER_CONTAINER_NAME} cpptestcli -data . -resource ${CPPTEST_PROJECT_NAME} -config ${CPPTEST_CONFIG_UNIT_TEST} -localsettings cpptest.ls.properties -showdetails -appconsole stdout'
                     }
                 }
             }

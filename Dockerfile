@@ -35,7 +35,7 @@ COPY parasoft_cpptest_2020.2.0_linux_x86_64.tar.gz /opt/app
 
 RUN chmod u+rwx /opt/app/parasoft_cpptest_2020.2.0_linux_x86_64.tar.gz
 RUN tar zxvf /opt/app/parasoft_cpptest_2020.2.0_linux_x86_64.tar.gz && \
-    /opt/app/parasoft_cpptest_professional-2020.2.0.20201022B1126-linux.x86_64.sh --non-interactive --lang 2 --configure /opt/app/license.properties && \
+    /opt/app/parasoft_cpptest_professional-2020.2.0.20201022B1126-linux.x86_64.sh --non-interactive --lang 2 && \
     rm /opt/app/parasoft_cpptest_2020.2.0_linux_x86_64.tar.gz && \
     rm /opt/app/parasoft_cpptest_professional-2020.2.0.20201022B1126-linux.x86_64.sh
 
