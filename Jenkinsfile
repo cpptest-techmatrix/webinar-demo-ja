@@ -7,12 +7,14 @@ pipeline {
         DOCKER_IMAGE_TAG='webinar-demo-ja'
         DOCKER_CONTAINER_NAME='cpptest-workflow'
         HOST_HOME_DIR='/home/ubuntu'
-        CONTAINER_HOME_DIR='/home/ubuntu/webinar-demo-ja'
+        CONTAINER_HOME_DIR='/home/cpptest/webinar-demo-ja'
         // for cpptest
         CPPTEST_PROJECT_NAME='FlowAnalysis'
         CPPTEST_CONFIG_MISRA='user://MISRA C 2012'
         CPPTEST_CONFIG_CERT='builtin://SEI CERT C Rules'
         CPPTEST_CONFIG_UNIT_TEST='user://03. Run Unit Tests for ARM'
+        //GitHub
+        GIT_PROJECT_URL='https://github.com/cpptest-techmatrix/webinar-demo-ja'
     }
     stages {
         stage('Create Docker Image') {
@@ -23,7 +25,12 @@ pipeline {
         }
         stage('Run Docker Container') {
             steps {
-                sh 'docker run --net host --name ${DOCKER_CONTAINER_NAME} -w ${CONTAINER_HOME_DIR} -v ${HOST_HOME_DIR}/cpptest_workflow/webinar-demo-ja:${CONTAINER_HOME_DIR} -itd ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}'
+                sh 'docker run --net host --name ${DOCKER_CONTAINER_NAME} -w ${CONTAINER_HOME_DIR} -itd ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}'
+            }
+        }
+        stage('Clone Project') {
+            steps {
+                sh 'docker exec -u 1000 -i ${DOCKER_CONTAINER_NAME} git clone ${GIT_PROJECT_URL}'
             }
         }
         stage('Build Project') {
@@ -52,7 +59,7 @@ pipeline {
                 }
                 stage('Run Unit Tests') {
                     steps {
-                        sh 'echo "Run Unit Tests"'
+                        //sh 'echo "Run Unit Tests"'
                         sh 'docker exec --user 1000 -i ${DOCKER_CONTAINER_NAME} cpptestcli -data . -resource ${CPPTEST_PROJECT_NAME} -config "${CPPTEST_CONFIG_UNIT_TEST}" -localsettings cpptest.ls.properties -showdetails -appconsole stdout'
                     }
                 }

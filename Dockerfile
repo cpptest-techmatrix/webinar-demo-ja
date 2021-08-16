@@ -47,7 +47,7 @@ RUN update-locale LANG=ja_JP.UTF-8
 
 # ユーザーを追加
 ARG DOCKER_UID=1000
-ARG DOCKER_USER=ubuntu
+ARG DOCKER_USER=cpptest
 RUN useradd -m -u ${DOCKER_UID} ${DOCKER_USER}
 
 ENV LC_ALL=ja_JP.UTF-8
