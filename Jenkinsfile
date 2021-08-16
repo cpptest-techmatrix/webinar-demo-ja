@@ -45,28 +45,46 @@ pipeline {
                 sh 'docker exec -u ${DOCKER_USER} -w ${CONTAINER_WORK_DIR} -i ${DOCKER_CONTAINER_NAME} cpptestcli -data . -bdf ${CPPTEST_PROJECT_NAME}/cpptestscan.bdf -localsettings cpptest.ls.properties -showdetails'
             }
         }
-        stage('Run Tests') {
-            parallel {
-                stage('Run MISRA Guideline Test') {
-                    steps {
-                        //sh 'echo "Run MISRA Guideline Test"'
-                        sh 'docker exec -u ${DOCKER_USER} -w ${CONTAINER_WORK_DIR} -i ${DOCKER_CONTAINER_NAME} cpptestcli -data . -resource ${CPPTEST_PROJECT_NAME} -config "${CPPTEST_CONFIG_MISRA}" -localsettings cpptest.ls.properties -report reports_MISRA -showdetails -appconsole stdout'
-                    }
-                }
-                stage('Run Security Test') {
-                    steps {
-                        //sh 'echo "Run Security Test"'
-                        sh 'docker exec -u ${DOCKER_USER} -w ${CONTAINER_WORK_DIR} -i ${DOCKER_CONTAINER_NAME} cpptestcli -data . -resource ${CPPTEST_PROJECT_NAME} -config "${CPPTEST_CONFIG_CERT}" -localsettings cpptest.ls.properties -report reports_CERT -showdetails -appconsole stdout'
-                    }
-                }
-                stage('Run Unit Tests') {
-                    steps {
-                        //sh 'echo "Run Unit Tests"'
-                        sh 'docker exec -u ${DOCKER_USER} -w ${CONTAINER_WORK_DIR} -i ${DOCKER_CONTAINER_NAME} cpptestcli -data . -resource ${CPPTEST_PROJECT_NAME} -config "${CPPTEST_CONFIG_UNIT_TEST}" -localsettings cpptest.ls.properties -report reports_UNITTEST -showdetails -appconsole stdout'
-                    }
-                }
+        stage('Run MISRA Guideline Test') {
+            steps {
+                //sh 'echo "Run MISRA Guideline Test"'
+                sh 'docker exec -u ${DOCKER_USER} -w ${CONTAINER_WORK_DIR} -i ${DOCKER_CONTAINER_NAME} cpptestcli -data . -resource ${CPPTEST_PROJECT_NAME} -config "${CPPTEST_CONFIG_MISRA}" -localsettings cpptest.ls.properties -report reports_MISRA -showdetails -appconsole stdout'
             }
         }
+        stage('Run Security Test') {
+            steps {
+                //sh 'echo "Run Security Test"'
+                sh 'docker exec -u ${DOCKER_USER} -w ${CONTAINER_WORK_DIR} -i ${DOCKER_CONTAINER_NAME} cpptestcli -data . -resource ${CPPTEST_PROJECT_NAME} -config "${CPPTEST_CONFIG_CERT}" -localsettings cpptest.ls.properties -report reports_CERT -showdetails -appconsole stdout'
+            }
+        }
+        stage('Run Unit Tests') {
+            steps {
+                //sh 'echo "Run Unit Tests"'
+                sh 'docker exec -u ${DOCKER_USER} -w ${CONTAINER_WORK_DIR} -i ${DOCKER_CONTAINER_NAME} cpptestcli -data . -resource ${CPPTEST_PROJECT_NAME} -config "${CPPTEST_CONFIG_UNIT_TEST}" -localsettings cpptest.ls.properties -report reports_UNITTEST -showdetails -appconsole stdout'
+            }
+        }
+        // stage('Run Tests') {
+            // parallel {
+            //     stage('Run MISRA Guideline Test') {
+            //         steps {
+            //             //sh 'echo "Run MISRA Guideline Test"'
+            //             sh 'docker exec -u ${DOCKER_USER} -w ${CONTAINER_WORK_DIR} -i ${DOCKER_CONTAINER_NAME} cpptestcli -data . -resource ${CPPTEST_PROJECT_NAME} -config "${CPPTEST_CONFIG_MISRA}" -localsettings cpptest.ls.properties -report reports_MISRA -showdetails -appconsole stdout'
+            //         }
+            //     }
+            //     stage('Run Security Test') {
+            //         steps {
+            //             //sh 'echo "Run Security Test"'
+            //             sh 'docker exec -u ${DOCKER_USER} -w ${CONTAINER_WORK_DIR} -i ${DOCKER_CONTAINER_NAME} cpptestcli -data . -resource ${CPPTEST_PROJECT_NAME} -config "${CPPTEST_CONFIG_CERT}" -localsettings cpptest.ls.properties -report reports_CERT -showdetails -appconsole stdout'
+            //         }
+            //     }
+            //     stage('Run Unit Tests') {
+            //         steps {
+            //             //sh 'echo "Run Unit Tests"'
+            //             sh 'docker exec -u ${DOCKER_USER} -w ${CONTAINER_WORK_DIR} -i ${DOCKER_CONTAINER_NAME} cpptestcli -data . -resource ${CPPTEST_PROJECT_NAME} -config "${CPPTEST_CONFIG_UNIT_TEST}" -localsettings cpptest.ls.properties -report reports_UNITTEST -showdetails -appconsole stdout'
+            //         }
+            //     }
+            // }
+        // }
         stage('Delete Docker Container') {
             steps {
                 sh '''docker stop ${DOCKER_CONTAINER_NAME}
