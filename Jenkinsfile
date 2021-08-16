@@ -3,7 +3,7 @@ pipeline {
     environment
     {
         // for Docker
-        DOCKER_USER=cpptest
+        DOCKER_USER='cpptest'
         DOCKER_IMAGE_NAME='webinar-demo-ja'
         DOCKER_IMAGE_TAG='webinar-demo-ja'
         DOCKER_CONTAINER_NAME='cpptest-workflow'
