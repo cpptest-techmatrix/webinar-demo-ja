@@ -7,7 +7,7 @@ pipeline {
         DOCKER_IMAGE_TAG='webinar-demo-ja'
         DOCKER_CONTAINER_NAME='cpptest-workflow'
         HOST_HOME_DIR='/home/ubuntu'
-        CONTAINER_HOME_DIR='/home/cpptest/webinar-demo-ja'
+        CONTAINER_HOME_DIR='/home/cpptest'
         // for cpptest
         CPPTEST_PROJECT_NAME='FlowAnalysis'
         CPPTEST_CONFIG_MISRA='user://MISRA C 2012'
@@ -25,7 +25,7 @@ pipeline {
         }
         stage('Run Docker Container') {
             steps {
-                sh 'docker run --net host --name ${DOCKER_CONTAINER_NAME} -w ${CONTAINER_HOME_DIR} -itd ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}'
+                sh 'docker run --net host --name ${DOCKER_CONTAINER_NAME} -u 1000 -w ${CONTAINER_HOME_DIR} -itd ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}'
             }
         }
         stage('Clone Project') {
