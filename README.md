@@ -19,12 +19,13 @@ TechMatrix ウェビナー デモ環境
     - QEMUを実行環境とした単体テストの実行
     - Parasoft DTPへのテスト結果のパブリッシュ
 * Jenkinsfileのパイプラインは正常系のみの実装となります。
-* Dockerfileと同階層にlicense.propertiesとparasoft_cpptest_2020.2.0_linux_x86_64.tar.gzを配置してください
+* Dockerコンテナ作成には<HOME>/moduleにparasoft_cpptest_2020.2.0_linux_x86_64.tar.gzを配置する必要があります。
 
 # 以降、環境構築メモ
 ## クライアントPCでのC++test起動
-Dockerfileにはubuntu-desktopを含めていません。  
-GUIを使用する場合、Dockerコンテナ作成後にubuntu-desktopをインストールしてください。  
+Dockerfileでの初期セットアップにはubuntu-desktopは含めていません。  
+クライアントでGUIを使用する場合、Dockerコンテナ作成後にubuntu-desktopをインストールしてください。
+また、xhostなどでホスト側でDockerコンテナの画面を表示するなどの対応も必要ですが、Dockerfileには含まれていません。
 CUIのみ使用する場合、ubuntu-desktopは不要です。
 
 コマンド例)
@@ -40,5 +41,7 @@ $ docker exec --user cpptest -it webinar-demo-ja /bin/bash
 $ cd FlowAnalysis
 $ mkdir build
 $ cd build
-$ cmake ..
+$ cmake .  ※必ずしもカレントである必要はありません。
 $ make
+
+もしカレントでビルドした場合は、ビルド後の環境削除はenv_clean.shをご利用いただけます。
