@@ -5,4 +5,9 @@ FlowAnalysis/.parasoft
 FlowAnalysis/.project
 FlowAnalysis/cpptestscan.bdf
 FlowAnalysis/FlowAnalysis.map
-
+FlowAnalysis/CMakeCache.txt
+FlowAnalysis/CMakeFiles/
+FlowAnalysis/FlowAnalysis.axf
+FlowAnalysis/Makefile
+FlowAnalysis/cmake_install.cmake
+FlowAnalysis/compile_commands.json
