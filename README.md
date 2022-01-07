@@ -24,24 +24,24 @@ TechMatrix ウェビナー デモ環境
 # 以降、環境構築メモ
 ## クライアントPCでのC++test起動
 Dockerfileでの初期セットアップにはubuntu-desktopは含めていません。  
-クライアントでGUIを使用する場合、Dockerコンテナ作成後にubuntu-desktopをインストールしてください。
-また、xhostなどでホスト側でDockerコンテナの画面を表示するなどの対応も必要ですが、Dockerfileには含まれていません。
+クライアントでGUIを使用する場合、Dockerコンテナ作成後にubuntu-desktopをインストールしてください。  
+また、xhostなどでホスト側でDockerコンテナの画面を表示するなどの対応も必要ですが、Dockerfileには含まれていません。  
 CUIのみ使用する場合、ubuntu-desktopは不要です。
 
-コマンド例)
-$ docker build -t webinar-demo-ja:webinar-demo-ja .
-$ docker run --net=host --name webinar-demo-ja -itd -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix -v /home/cpptest/webinar-demo:/home/cpptest/webinar-demo webinar-demo-ja:webinar-demo-ja
-$ docker exec -it webinar-demo-ja /bin/bash
-root#apt-get install -y ubuntu-desktop
-root#apt-get install -y libgtk2.0-dev
-$ xhost +localhost
-$ docker exec --user cpptest -it webinar-demo-ja /bin/bash
+コマンド例)  
+$ docker build -t webinar-demo-ja:webinar-demo-ja .  
+$ docker run --net=host --name webinar-demo-ja -itd -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix -v /home/cpptest/webinar-demo:/home/cpptest/webinar-demo webinar-demo-ja:webinar-demo-ja  
+$ docker exec -it webinar-demo-ja /bin/bash  
+root#apt-get install -y ubuntu-desktop  
+root#apt-get install -y libgtk2.0-dev  
+$ xhost +localhost  
+$ docker exec --user cpptest -it webinar-demo-ja /bin/bash  
 
 ## FlowAnalysisプロジェクトのビルド方法
-$ cd FlowAnalysis
-$ mkdir build
-$ cd build
-$ cmake .  ※必ずしもカレントである必要はありません。
-$ make
+$ cd FlowAnalysis  
+$ mkdir build  
+$ cd build  
+$ cmake .  ※必ずしもカレントである必要はありません。  
+$ make  
 
 もしカレントでビルドした場合は、ビルド後の環境削除はenv_clean.shをご利用いただけます。
